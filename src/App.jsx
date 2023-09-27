@@ -8,7 +8,7 @@ import Footer from './components/Footer'
 
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { getInitialTitles } from './redux/titlesSlice'
+import { getInitialTitles,getTitleTypes } from './redux/titlesSlice'
 
 function App() {
 
@@ -16,6 +16,7 @@ function App() {
 
   useEffect(()=>{
       dispatch(getInitialTitles())
+      dispatch(getTitleTypes())
   } ,[])
 
   return (

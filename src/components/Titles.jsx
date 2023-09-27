@@ -6,7 +6,7 @@ const Titles=()=>{
     console.log("titulos en home: ",titles)
 
     return (
-        <div className="w-1/2 mx-auto p-4">
+        <div className="w-1/2 mx-auto p-4 bg-red-400">
         <div className="flex flex-wrap -mx-4 bg-blue-200">
            
             {   titles?.map( (title)=>(
