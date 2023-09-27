@@ -1,5 +1,5 @@
 import './App.css'
-import Banner from './components/banner'
+import Banner from './components/Banner'
 import SearchBar from './components/SearchBar'
 import Filters from './components/Filters'
 import Titles from './components/Titles'
