@@ -1,16 +1,27 @@
 import { useSelector } from "react-redux"
+import CardTitle from "./CardTitle"
 
 const Titles=()=>{
     const titles= useSelector(state=>state.titlesState.titles )
     console.log("titulos en home: ",titles)
+
     return (
-        <div className="w-1/2 h-3/5 bg-blue-200 mx-auto p-8">
-            <ul>
+        <div className="w-1/2 mx-auto p-4">
+        <div className="flex flex-wrap -mx-4 bg-blue-200">
+           
             {   titles?.map( (title)=>(
-                <li key={title.id}>{title.originalTitleText.text} </li>
+                <div key={title?.id} className="w-1/4 p-4 mb-4">
+                <CardTitle key={title?.id}
+                   image={title.primaryImage?.url}
+                   titleText={title.titleText?.text}
+                   year={title.releaseYear?.year}
+                   titleType={title.titleType?.text}         
+                />
+                </div>
+               
                 ))   
             }
-            </ul>   
+        </div> 
         </div>
     )
 }
