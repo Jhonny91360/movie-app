@@ -6,7 +6,17 @@ import Titles from './components/Titles'
 import Paginated from './components/Paginated'
 import Footer from './components/Footer'
 
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { getInitialTitles } from './redux/titlesSlice'
+
 function App() {
+
+  const dispatch= useDispatch();
+
+  useEffect(()=>{
+      dispatch(getInitialTitles())
+  } ,[])
 
   return (
     <div className='bg-orange-300 h-screen'>
