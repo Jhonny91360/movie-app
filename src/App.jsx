@@ -1,10 +1,21 @@
 import './App.css'
+import Banner from './components/banner'
+import SearchBar from './components/SearchBar'
+import Filters from './components/Filters'
+import Titles from './components/Titles'
+import Paginated from './components/Paginated'
+import Footer from './components/Footer'
 
 function App() {
 
   return (
-    <div className='bg-slate-400'>
-          <h1 className='text-3xl font-bold underline' >MOVIE APP</h1>
+    <div className='bg-orange-300 h-screen'>
+          <Banner></Banner>
+          <SearchBar/>
+          <Filters/>
+          <Titles/>
+          <Paginated/>
+          <Footer/>
     </div>
   )
 }
