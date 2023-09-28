@@ -5,6 +5,8 @@ const Paginated = ({page, setPage, max}) => {
 
     const pages = Array.from({length: max}, (_, i) => i + 1);
     const dispatch=useDispatch();
+
+    //actualizo la pagina en el componente Titles.jsx y en el estado global
     const pageHandler=(num)=>{
         dispatch(refreshPage(num))
         setPage(num)
