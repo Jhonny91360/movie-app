@@ -1,6 +1,9 @@
 import { useSelector,useDispatch } from "react-redux";
 import { useState,useEffect } from "react";
 import { getFilterTitles,getInitialTitles,addKeyWord,refreshPage } from "../redux/titlesSlice";
+import {BsChevronDown} from 'react-icons/bs'
+import {PiArrowsDownUpLight} from 'react-icons/pi'
+import {HiOutlineFilter} from 'react-icons/hi'
 
 
 
@@ -82,11 +85,11 @@ const Filters=()=>{
         const valor=event.target.value
         setValueOrder(valor)
         const {sort,...nuevoEstado} = params; // Crear un nuevo objeto sin sort
-        if(valor==='Asc'){
+        if(valor==='ASC'){
 
             setParams({...params,sort:"year.incr"})
 
-        }else if(valor==='Desc'){
+        }else if(valor==='DESC'){
 
             setParams({...params,sort:"year.decr"})
 
@@ -101,7 +104,7 @@ const Filters=()=>{
         const {titleType,...nuevoEstado} = params; // Crear un nuevo objeto sin titleType
         setValueType(valor)
         console.log(valor);
-        if(valor!="Tipo") setParams({...params,titleType:valor})
+        if(valor!="TIPO") setParams({...params,titleType:valor})
         else setParams(nuevoEstado); // Establecer el nuevo estado sin titleType
     }
     //Resetear valores de filtros
@@ -112,30 +115,46 @@ const Filters=()=>{
         setParams({})
         dispatch(addKeyWord(""));
     }
-    return(
-        <div className="flex justify-center items-center p-4">
-            <select value={valueYear} onChange={handlerFiltersYear}>
-                <option name="" id="">Año</option>
-                <option name="" id="">2020 - 2023</option>
-                <option name="" id="">2010 - 2019</option>
-                <option name="" id="">2000 - 2009</option>
-                <option name="" id="">1990 - 1999</option>
-                <option name="" id="">1980 - 1989</option>
-                <option name="" id="">1970 - 1979</option>
-                <option name="" id="">1960 - 1969</option>
-                <option name="" id="">1950 - 1959</option>
-            </select>
+    return(  
+        <div className="flex flex-col items-center  md:flex-row md:justify-center md:space-x-4 p-4">
+            <div  className="m-2 relative">
+            <select value={valueYear} 
+                    onChange={handlerFiltersYear} 
+                    className="p-2 pr-8 bg-white border border-black rounded appearance-none">
+                    <option name="" id="">AÑO</option>
+                    <option name="" id="">2020 - 2023</option>
+                    <option name="" id="">2010 - 2019</option>
+                    <option name="" id="">2000 - 2009</option>
+                    <option name="" id="">1990 - 1999</option>
+                    <option name="" id="">1980 - 1989</option>
+                    <option name="" id="">1970 - 1979</option>
+                    <option name="" id="">1960 - 1969</option>
+                    <option name="" id="">1950 - 1959</option>
+            </select>      
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <BsChevronDown className="text-black"/>
+            </div>
+            </div>
 
+            <div  className="m-2 relative">
             <select 
                 value={valueOrder} 
-                onChange={handlerFiltersOrder}>
-                <option name="" id="">Ordenar</option>
-                <option name="" id="">Asc </option>
-                <option name="" id="">Desc </option>
+                onChange={handlerFiltersOrder}
+                className="p-2 pr-8 bg-white border border-black rounded appearance-none">
+                <option name="" id="">ORDENAR</option>
+                <option name="" id="">ASC </option>
+                <option name="" id="">DESC</option>
             </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <PiArrowsDownUpLight className="text-black"/>
+            </div>
+            </div>
 
-            <select value={valueType}  onChange={handlerFiltersType}>
-                <option name="" id="">Tipo</option>
+            <div  className="m-2 relative">
+            <select value={valueType} 
+                    onChange={handlerFiltersType}
+                    className="p-2 pr-8 bg-white border border-black rounded appearance-none">
+                <option name="" id="">TIPO</option>
                 {
                     titleTypes?.map(type=>{
                         return(
@@ -144,7 +163,17 @@ const Filters=()=>{
                     })
                 }
             </select>
-            <button onClick={()=>cleanFilters()}>Limpiar</button>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <HiOutlineFilter className="text-black"/>
+            </div>
+            </div>        
+
+
+
+            <button onClick={()=>cleanFilters()}
+            className="bg-red-500 text-white p-2 rounded"
+            >Limpiar
+            </button>
         </div>
     )
 }
