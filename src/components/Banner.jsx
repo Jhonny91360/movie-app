@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import { GoDotFill } from 'react-icons/go';
-import { FaPlay } from 'react-icons/fa';
 import {AiFillPlayCircle} from 'react-icons/ai';
 import {PiTelevisionSimpleBold} from 'react-icons/pi';
 
@@ -20,7 +19,7 @@ const Banner = () => {
         trailer:"https://www.youtube.com/watch?v=L0anWmmd8TI"
     },
     {
-        img:'shazam-banner.jpeg',
+        img:'shazam-banner2.jpg',
         title1:"!Shazam!",
         title2:"Furia de los dioses",
         imd:"78.0/100",
@@ -67,7 +66,7 @@ const Banner = () => {
         <img
           src={slides[currentIndex].img}
           alt="Slide"
-          className='w-full h-full rounded-2xl object-cover duration-500'
+          className='w-full h-full rounded-2xl  duration-500 object-scale-down'
           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
         />
         {/* Agregar superposición oscura */}
@@ -77,11 +76,11 @@ const Banner = () => {
         {/* Fin de superposición oscura */}
 
         {/* Left Arrow */}
-        <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
+        <div className='z-10 hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
           <BsChevronCompactLeft onClick={prevSlide} size={30} />
         </div>
         {/* Right Arrow */}
-        <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
+        <div className='z-10 hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
           <BsChevronCompactRight onClick={nextSlide} size={30} />
         </div>
         <div className='absolute bottom-2 left-0 right-0 flex justify-center'>
@@ -100,23 +99,23 @@ const Banner = () => {
         
 
         <div className="absolute bottom-1/3 left-[8%] text-white">
-          <div className="mb-10 flex items-center space-x-2 mt-2">
+          <div className="md:mt-0 mt-4 mb-10 flex items-center space-x-2 ">
             <div className="bg-red-700 rounded-full p-2">
-                <div className="bg-red-600 rounded-full p-2">
+                <div className=" bg-red-600 rounded-full p-2">
                     <PiTelevisionSimpleBold className="text-white w-6 h-6" />
                 </div>
             </div>
            <h1 className="text-2xl font-bold">MovieBox</h1>
           </div>
-          <h1 className="text-4xl font-bold">{slides[currentIndex].title1}</h1>
-          <h2 className="text-4xl font-bold">{slides[currentIndex].title2}</h2>
+          <h1 className="text-4xl font-bold ">{slides[currentIndex].title1}</h1>
+          <h2 className="text-4xl font-bold ">{slides[currentIndex].title2}</h2>
           <div className="flex items-center space-x-2 mt-2">
             <img src="imdb.png" className="w-10 h-10" alt="IMDb" />
             <p className="text-lg">{slides[currentIndex].imd}</p>
             <img src="tomato.png" className="w-4 h-4" alt="Tomato" />
             <p className="text-lg">{slides[currentIndex].tomatos}</p>
           </div>
-          <p className="text-lg" dangerouslySetInnerHTML={{ __html: slides[currentIndex].resumen }}></p>
+          <p className="md:flex hidden text-lg" dangerouslySetInnerHTML={{ __html: slides[currentIndex].resumen }}></p>
           <a
             href={slides[currentIndex].trailer}
             className="text-xl bg-red-800 hover:bg-red-700 text-white py-2 px-4 rounded-md mt-4 inline-flex items-center"
