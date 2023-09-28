@@ -1,6 +1,6 @@
 import { useSelector,useDispatch } from "react-redux";
 import { useState,useEffect } from "react";
-import { getFilterTitles,getInitialTitles,addKeyWord } from "../redux/titlesSlice";
+import { getFilterTitles,getInitialTitles,addKeyWord,refreshPage } from "../redux/titlesSlice";
 
 
 
@@ -20,6 +20,8 @@ const Filters=()=>{
     const keyWord=useSelector(state=>state.titlesState.keyWord)  //Leer si se ha ingresado alguna busqueda en la SearchBar
 
     useEffect(() => {
+
+        dispatch(refreshPage(1)); //Como hubo cambio en filtros o busqueda, reseteo la pagina para el paginado
         
         if(keyWord){  //Si hay una busqueda activa, agrego el texto a params para detectarlo en el reducer
             dispatch(getFilterTitles({ ...params,keyWord:keyWord }));

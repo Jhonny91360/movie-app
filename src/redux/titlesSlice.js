@@ -32,7 +32,7 @@ const options = {
 export const getInitialTitles=createAsyncThunk('titles/getInitialTitles',async()=>{
     try {
         options.url=`${BASE_URL}`
-        options.params={list: 'most_pop_movies',limit:12,year:2022}
+        options.params={list: 'most_pop_movies',limit:50,year:2022}
         const response= await axios.request(options)
         //console.log("Respuesta API: ",response.data.results)
         console.log("lo que entrega la API: ",response.data);
@@ -81,7 +81,7 @@ export const getFilterTitles=createAsyncThunk('titles/getFilterTitles',async(par
             options.params=params      //cargo params que contiene los filtros de Filters.jsx
         }
 
-        options.params.limit=12;        //12 resultados por pagina
+        options.params.limit=50;        //50 resultados es el maximo de la api
         
         const response= await axios.request(options)
         console.log("URL: "+options.url);
@@ -101,6 +101,10 @@ export const titlesSlice=createSlice({
     reducers:{            //Reduces para la search Bar    
         addKeyWord:(state,action)=>{
             state.keyWord=action.payload
+        },
+        refreshPage:(state,action)=>{
+            console.log("refrescando pagina: "+action.payload)
+            state.page=action.payload
         }
     },
 
@@ -148,5 +152,5 @@ export const titlesSlice=createSlice({
 })
 
 
-export const{addKeyWord}=titlesSlice.actions;
+export const{addKeyWord,refreshPage}=titlesSlice.actions;
 export default titlesSlice.reducer;

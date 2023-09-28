@@ -3,7 +3,6 @@ import Banner from './components/Banner'
 import SearchBar from './components/SearchBar'
 import Filters from './components/Filters'
 import Titles from './components/Titles'
-import Paginated from './components/Paginated'
 import Footer from './components/Footer'
 
 import { useDispatch } from 'react-redux'
@@ -25,7 +24,6 @@ function App() {
           <SearchBar/>
           <Filters/>
           <Titles/>
-          <Paginated/>
           <Footer/>
     </div>
   )
