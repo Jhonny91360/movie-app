@@ -1,14 +1,14 @@
 import { useSelector,useDispatch } from "react-redux";
 import { useState,useEffect } from "react";
-import { getFilterTitles } from "../redux/titlesSlice";
+import { getFilterTitles,getInitialTitles,addKeyWord } from "../redux/titlesSlice";
 
 
 
 const Filters=()=>{
 
-    let titleTypes=useSelector(state=>state.titlesState.titleTypes)
+    let titleTypes=useSelector(state=>state.titlesState.titleTypes)//Leer tipo de titulos de la api (movies,tvseries, etc)
     titleTypes=titleTypes.slice(1); //Elimino el primer dato que es null
-    //console.log("mis tipos de titulos para filtros: ",titleTypes);
+    
     const dispatch=useDispatch();
     const[params,setParams]=useState({});  //Params es un objeto que acumula caracteristicas de la busqueda
     
@@ -17,9 +17,24 @@ const Filters=()=>{
     const[valueYear,setValueYear]=useState("Año");
     const[valueType,setValueType]=useState("Tipo");
 
+    const keyWord=useSelector(state=>state.titlesState.keyWord)  //Leer si se ha ingresado alguna busqueda en la SearchBar
+
     useEffect(() => {
-        dispatch(getFilterTitles({ ...params }));
-      }, [params, dispatch]);
+        
+        if(keyWord){  //Si hay una busqueda activa, agrego el texto a params para detectarlo en el reducer
+            dispatch(getFilterTitles({ ...params,keyWord:keyWord }));
+        }else{
+            const keys = Object.keys(params);
+            //Revisar si el objeto esta vacio para pedir los titles iniciales
+            if(!keys.length){
+                dispatch(getInitialTitles());
+            }
+            //Si no esta vacio , entonces envio params para busqueda con los filtros activos
+            else{
+                dispatch(getFilterTitles({ ...params }));
+            }
+        }
+      }, [params, dispatch,keyWord]);
    
     //Segun el valor del filtro, cambiamos starYear y endYear para la consulta a la api
     const handlerFiltersYear=(event)=>{
@@ -30,26 +45,26 @@ const Filters=()=>{
             case "2020 - 2023":
                 setParams({...params,startYear:2020,endYear:2023})
                 break;
-            case "2010 - 2020":
-                setParams({...params,startYear:2010,endYear:2020})
+            case "2010 - 2019":
+                setParams({...params,startYear:2010,endYear:2019})
                 break;
-            case "2000 - 2010":
-                setParams({...params,startYear:2000,endYear:2010})
+            case "2000 - 2009":
+                setParams({...params,startYear:2000,endYear:2009})
                 break;                   
-            case "1990 - 2000":
-                setParams({...params,startYear:1990,endYear:2000})
+            case "1990 - 1999":
+                setParams({...params,startYear:1990,endYear:1999})
                 break;                   
-            case "1980 - 1990":
-                setParams({...params,startYear:1980,endYear:1990})
+            case "1980 - 1989":
+                setParams({...params,startYear:1980,endYear:1989})
                 break;   
-            case "1970 - 1980":
-                setParams({...params,startYear:1970,endYear:1980})
+            case "1970 - 1979":
+                setParams({...params,startYear:1970,endYear:1979})
                 break;    
-            case "1960 - 1970":
-                setParams({...params,startYear:1960,endYear:1970})
+            case "1960 - 1969":
+                setParams({...params,startYear:1960,endYear:1969})
                 break;  
-            case "1950 - 1960":
-                setParams({...params,startYear:1950,endYear:1960})
+            case "1950 - 1959":
+                setParams({...params,startYear:1950,endYear:1959})
                 break;                                                                         
             default:
                 //setParams({...params,startYear:"",endYear:""})
@@ -57,7 +72,7 @@ const Filters=()=>{
                 break;
         }
         
-        console.log("rango de años:"+valueYear);
+        
     }
 
     //Segun el valor del filtro, modificamos sort para la consulta a la api
@@ -87,18 +102,26 @@ const Filters=()=>{
         if(valor!="Tipo") setParams({...params,titleType:valor})
         else setParams(nuevoEstado); // Establecer el nuevo estado sin titleType
     }
+    //Resetear valores de filtros
+    const cleanFilters=()=>{
+        setValueOrder("Ordernar");
+        setValueType("Tipo");
+        setValueYear("Año")
+        setParams({})
+        dispatch(addKeyWord(""));
+    }
     return(
         <div className="flex justify-center items-center p-4">
             <select value={valueYear} onChange={handlerFiltersYear}>
                 <option name="" id="">Año</option>
                 <option name="" id="">2020 - 2023</option>
-                <option name="" id="">2010 - 2020</option>
-                <option name="" id="">2000 - 2010</option>
-                <option name="" id="">1990 - 2000</option>
-                <option name="" id="">1980 - 1990</option>
-                <option name="" id="">1970 - 1980</option>
-                <option name="" id="">1960 - 1970</option>
-                <option name="" id="">1950 - 1960</option>
+                <option name="" id="">2010 - 2019</option>
+                <option name="" id="">2000 - 2009</option>
+                <option name="" id="">1990 - 1999</option>
+                <option name="" id="">1980 - 1989</option>
+                <option name="" id="">1970 - 1979</option>
+                <option name="" id="">1960 - 1969</option>
+                <option name="" id="">1950 - 1959</option>
             </select>
 
             <select 
@@ -119,7 +142,7 @@ const Filters=()=>{
                     })
                 }
             </select>
-            <button>Limpiar</button>
+            <button onClick={()=>cleanFilters()}>Limpiar</button>
         </div>
     )
 }

@@ -14,7 +14,10 @@ const HEADERS={
 const initialState={
     loading:false,
     titles:[],
-    titleTypes:[]
+    titleTypes:[],
+    keyWord:"",
+    page:1,
+    nextPage:null
 }
 
 
@@ -32,7 +35,8 @@ export const getInitialTitles=createAsyncThunk('titles/getInitialTitles',async()
         options.params={list: 'most_pop_movies',limit:12,year:2022}
         const response= await axios.request(options)
         //console.log("Respuesta API: ",response.data.results)
-        return response.data.results
+        console.log("lo que entrega la API: ",response.data);
+        return response.data
     } catch (error) {
         console.log("Error API: "+error.message)
         return error.message
@@ -65,13 +69,25 @@ export const getTitleTypes=createAsyncThunk('titles/getTitleTypes',async()=>{
 */
 export const getFilterTitles=createAsyncThunk('titles/getFilterTitles',async(params)=>{
     try {
-        options.url=`${BASE_URL}`
-        options.params=params
+
+        if(params.keyWord) {    //Si hay busqueda activa en la SearchBar
+            const {keyWord,...newParams} = params; //Tomo key word y genero un objeto sin keyword para la consulta
+            options.url=`${BASE_URL}/search/title/${keyWord}` //Ruta para busqueda de titulo 
+            newParams.exact=false           //Para que la busqueda no sea estricta, sino que encuentre coincidencias
+            options.params=newParams        //Agrego el params modificado para la consulta
+        }
+        else{               //Si no hay busqueda activa
+            options.url=`${BASE_URL}`  //URL normal para busqueda con filtros
+            options.params=params      //cargo params que contiene los filtros de Filters.jsx
+        }
+
+        options.params.limit=12;        //12 resultados por pagina
+        
         const response= await axios.request(options)
         console.log("URL: "+options.url);
         console.log("Params: ",options.params);
         //console.log("Respuesta titulos filtrados: ",response.data.results)
-        return response.data.results
+        return response.data
     } catch (error) {
         console.log("Error API en titulos filtrados: "+error.message)
         return error.message
@@ -81,8 +97,12 @@ export const getFilterTitles=createAsyncThunk('titles/getFilterTitles',async(par
 
 export const titlesSlice=createSlice({
     name:'titlesState',
-    initialState,
-    reducers:{},
+    initialState,   
+    reducers:{            //Reduces para la search Bar    
+        addKeyWord:(state,action)=>{
+            state.keyWord=action.payload
+        }
+    },
 
     extraReducers:(builder)=>{
         //initial titles
@@ -91,7 +111,8 @@ export const titlesSlice=createSlice({
         });
         builder.addCase(getInitialTitles.fulfilled,(state,action)=>{
             state.loading=false,
-            state.titles=action.payload
+            state.titles=action.payload.results
+            state.nextPage=action.payload.next
         });
         builder.addCase(getInitialTitles.rejected,(state)=>{
             state.loading=false,
@@ -116,7 +137,8 @@ export const titlesSlice=createSlice({
         });
         builder.addCase(getFilterTitles.fulfilled,(state,action)=>{
             state.loading=false,
-            state.titles=action.payload
+            state.titles=action.payload.results
+            state.nextPage=action.payload.nextPage
         });
         builder.addCase(getFilterTitles.rejected,(state)=>{
             state.loading=false,
@@ -126,5 +148,5 @@ export const titlesSlice=createSlice({
 })
 
 
-
+export const{addKeyWord}=titlesSlice.actions;
 export default titlesSlice.reducer;

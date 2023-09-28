@@ -3,13 +3,13 @@ const Paginated=()=>{
 
     return(
         <div className="flex justify-center mt-4">
-            <button> {"<"} </button>
-            <button> 1 </button>
-            <button> 2 </button>
-            <button> 3 </button>
-            <button> 4 </button>
-            <button> 5 </button>
-            <button> {">"} </button>
+            <button className="p-3"> {"<"} </button>
+            <button className="p-3"> 1 </button>
+            <button className="p-3"> 2 </button>
+            <button className="p-3"> 3 </button>
+            <button className="p-3"> 4 </button>
+            <button className="p-3"> 5 </button>
+            <button className="p-3"> {">"} </button>
         </div>
     )
 }

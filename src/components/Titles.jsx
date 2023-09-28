@@ -3,7 +3,7 @@ import CardTitle from "./CardTitle"
 
 const Titles=()=>{
     const titles= useSelector(state=>state.titlesState.titles )
-    console.log("titulos en home: ",titles)
+    //console.log("titulos en home: ",titles)
 
     return (
         <div className="w-1/2 mx-auto p-4 bg-red-400">
