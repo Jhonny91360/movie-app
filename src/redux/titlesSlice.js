@@ -17,7 +17,8 @@ const initialState={
     titleTypes:[],
     keyWord:"",
     page:1,
-    nextPage:null
+    nextPage:null,
+    error:null
 }
 
 
@@ -39,7 +40,7 @@ export const getInitialTitles=createAsyncThunk('titles/getInitialTitles',async()
         return response.data
     } catch (error) {
         console.log("Error API: "+error.message)
-        return error.message
+        throw error
     }
 })
 
@@ -53,7 +54,7 @@ export const getTitleTypes=createAsyncThunk('titles/getTitleTypes',async()=>{
         return response.data.results
     } catch (error) {
         console.log("Error API: "+error.message)
-        return error.message
+        throw error
     }
 })
 
@@ -86,11 +87,11 @@ export const getFilterTitles=createAsyncThunk('titles/getFilterTitles',async(par
         const response= await axios.request(options)
         console.log("URL: "+options.url);
         console.log("Params: ",options.params);
-        //console.log("Respuesta titulos filtrados: ",response.data.results)
+        console.log("Respuesta titulos filtrados: ",response.data)
         return response.data
     } catch (error) {
         console.log("Error API en titulos filtrados: "+error.message)
-        return error.message
+        throw error
     }
 })
 
@@ -109,30 +110,22 @@ export const titlesSlice=createSlice({
     },
 
     extraReducers:(builder)=>{
+
+
         //initial titles
         builder.addCase(getInitialTitles.pending,(state)=>{
             state.loading=true
         });
         builder.addCase(getInitialTitles.fulfilled,(state,action)=>{
-            state.loading=false,
+            state.loading=false
             state.titles=action.payload.results
             state.nextPage=action.payload.next
+            state.error=null
         });
-        builder.addCase(getInitialTitles.rejected,(state)=>{
-            state.loading=false,
+        builder.addCase(getInitialTitles.rejected,(state,action)=>{
+            state.loading=false
             state.titles=[]
-        });
-        //title types
-        builder.addCase(getTitleTypes.pending,(state)=>{
-            state.loading=true
-        });
-        builder.addCase(getTitleTypes.fulfilled,(state,action)=>{
-            state.loading=false,
-            state.titleTypes=action.payload
-        });
-        builder.addCase(getTitleTypes.rejected,(state)=>{
-            state.loading=false,
-            state.titleTypes=[]
+            state.error = action.error.message;
         });
 
         //filter titles
@@ -140,14 +133,32 @@ export const titlesSlice=createSlice({
             state.loading=true
         });
         builder.addCase(getFilterTitles.fulfilled,(state,action)=>{
-            state.loading=false,
+            state.loading=false
             state.titles=action.payload.results
             state.nextPage=action.payload.nextPage
+            state.error=null
         });
-        builder.addCase(getFilterTitles.rejected,(state)=>{
-            state.loading=false,
+        builder.addCase(getFilterTitles.rejected,(state,action)=>{
+            state.loading=false
+            state.titles=[]
+            state.error = action.error.message;
+        });
+
+
+        //title types
+        builder.addCase(getTitleTypes.pending,(state)=>{
+            state.loading=true
+        });
+        builder.addCase(getTitleTypes.fulfilled,(state,action)=>{
+            state.loading=false
+            state.titleTypes=action.payload
+        });
+        builder.addCase(getTitleTypes.rejected,(state,action)=>{
+            state.loading=false
             state.titleTypes=[]
+            state.error = action.error.message
         });
+
     }
 })
 
