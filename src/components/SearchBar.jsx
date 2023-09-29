@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addKeyWord } from "../redux/titlesSlice";
+import { addKeyWord ,setApiPage} from "../redux/titlesSlice";
 import { BsSearch } from 'react-icons/bs'; // Importa el ícono de búsqueda
 
 const SearchBar = () => {
@@ -16,7 +16,9 @@ const SearchBar = () => {
     setKeyword(wordValue);
   }, [wordValue]);
 
-  const searchByKeyWord = (text) => {   //Cuando se pulsa search, enviamos el texto al slicer
+  const searchByKeyWord = (text) => {   
+    dispatch(setApiPage(1)); //Hubo un cambio en filtros, vuelvo a pedir la pagina 1 de la api
+                                        //Cuando se pulsa search, enviamos el texto al slicer
     dispatch(addKeyWord(text));         //luego este texto lo toma Filter.jsx y lo combina 
   };                                    //segun los filtros actuales para generar la busqueda
 

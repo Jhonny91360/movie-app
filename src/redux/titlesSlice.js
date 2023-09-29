@@ -17,8 +17,12 @@ const initialState={
     titleTypes:[],
     keyWord:"",
     page:1,
-    nextPage:null,
-    error:null
+    changePage:"",    //Tomara dos valores: "next" o "back" para que Filters.jsx modifique page y haga consulta a la api
+    error:null,
+
+    apiNextPage:null,
+    apiPage:null,
+
 }
 
 
@@ -30,28 +34,14 @@ const options = {
   };
 
 // Se obtienen peliculas populares del año 2022 para mostrar inicialmente
-export const getInitialTitles=createAsyncThunk('titles/getInitialTitles',async()=>{
+export const getInitialTitles=createAsyncThunk('titles/getInitialTitles',async(params)=>{
     try {
         options.url=`${BASE_URL}`
-        options.params={list: 'most_pop_movies',limit:50,year:2022}
+        options.params=params
         const response= await axios.request(options)
         //console.log("Respuesta API: ",response.data.results)
         console.log("lo que entrega la API: ",response.data);
         return response.data
-    } catch (error) {
-        console.log("Error API: "+error.message)
-        throw error
-    }
-})
-
-//  Se obtiene los tipos de titulos de la API (movies,series, etc) para mostrarlos en el filtro tipo
-export const getTitleTypes=createAsyncThunk('titles/getTitleTypes',async()=>{
-    try {
-        options.url=`${BASE_URL}/utils/titleTypes`
-        options.params={}
-        const response= await axios.request(options)
-        //console.log("Respuesta tipos: ",response.data.results)
-        return response.data.results
     } catch (error) {
         console.log("Error API: "+error.message)
         throw error
@@ -82,7 +72,7 @@ export const getFilterTitles=createAsyncThunk('titles/getFilterTitles',async(par
             options.params=params      //cargo params que contiene los filtros de Filters.jsx
         }
 
-        options.params.limit=50;        //50 resultados es el maximo de la api
+        options.params.limit=48;        //50 resultados es el maximo de la api, uso 48 por pagina muestro 12 = 4 pag
         
         const response= await axios.request(options)
         console.log("URL: "+options.url);
@@ -96,17 +86,39 @@ export const getFilterTitles=createAsyncThunk('titles/getFilterTitles',async(par
 })
 
 
+//  Se obtiene los tipos de titulos de la API (movies,series, etc) para mostrarlos en el filtro tipo
+export const getTitleTypes=createAsyncThunk('titles/getTitleTypes',async()=>{
+    try {
+        options.url=`${BASE_URL}/utils/titleTypes`
+        options.params={}
+        const response= await axios.request(options)
+        //console.log("Respuesta tipos: ",response.data.results)
+        return response.data.results
+    } catch (error) {
+        console.log("Error API: "+error.message)
+        throw error
+    }
+})
+
 export const titlesSlice=createSlice({
     name:'titlesState',
     initialState,   
-    reducers:{            //Reduces para la search Bar    
+    reducers:{                       //Reduce para la search Bar    
         addKeyWord:(state,action)=>{
             state.keyWord=action.payload
-        },
+        },                          //Reduce para la pagina de nuestra aplicacion
         refreshPage:(state,action)=>{
-            console.log("refrescando pagina: "+action.payload)
+            //console.log("refrescando pagina: "+action.payload)
             state.page=action.payload
-        }
+        },                          //Reduce para cambiar la pagina de la API
+        changePaginated:(state,action)=>{
+            //console.log("cambiando page: "+action.payload)
+            state.changePage=action.payload
+        },
+        setApiPage:(state,action)=>{
+            console.log("cambiando Apipage: "+action.payload)
+            state.apiPage=action.payload
+        },
     },
 
     extraReducers:(builder)=>{
@@ -119,13 +131,16 @@ export const titlesSlice=createSlice({
         builder.addCase(getInitialTitles.fulfilled,(state,action)=>{
             state.loading=false
             state.titles=action.payload.results
-            state.nextPage=action.payload.next
+            state.apiPage=action.payload.page
+            state.apiNextPage=action.payload.next
             state.error=null
+            state.changePage=""
         });
         builder.addCase(getInitialTitles.rejected,(state,action)=>{
             state.loading=false
             state.titles=[]
-            state.error = action.error.message;
+            state.error = action.error.message
+            state.changePage=""
         });
 
         //filter titles
@@ -135,13 +150,16 @@ export const titlesSlice=createSlice({
         builder.addCase(getFilterTitles.fulfilled,(state,action)=>{
             state.loading=false
             state.titles=action.payload.results
-            state.nextPage=action.payload.nextPage
+            state.apiPage=action.payload.page
+            state.apiNextPage=action.payload.next
             state.error=null
+            state.changePage=""
         });
         builder.addCase(getFilterTitles.rejected,(state,action)=>{
             state.loading=false
             state.titles=[]
-            state.error = action.error.message;
+            state.error = action.error.message
+            state.changePage=""
         });
 
 
@@ -163,5 +181,5 @@ export const titlesSlice=createSlice({
 })
 
 
-export const{addKeyWord,refreshPage}=titlesSlice.actions;
+export const{addKeyWord,refreshPage,changePaginated,setApiPage}=titlesSlice.actions;
 export default titlesSlice.reducer;

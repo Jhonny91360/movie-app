@@ -1,6 +1,6 @@
 import { useSelector,useDispatch } from "react-redux";
 import { useState,useEffect } from "react";
-import { getFilterTitles,getInitialTitles,addKeyWord,refreshPage } from "../redux/titlesSlice";
+import { getFilterTitles,getInitialTitles,addKeyWord,refreshPage,setApiPage } from "../redux/titlesSlice";
 import {BsChevronDown} from 'react-icons/bs'
 import {PiArrowsDownUpLight} from 'react-icons/pi'
 import {HiOutlineFilter} from 'react-icons/hi'
@@ -21,28 +21,39 @@ const Filters=()=>{
     const[valueType,setValueType]=useState("Tipo");
 
     const keyWord=useSelector(state=>state.titlesState.keyWord)  //Leer si se ha ingresado alguna busqueda en la SearchBar
+    const changePage=useSelector(state=>state.titlesState.changePage) //Leer si el paginado llego al tope y esta pidiendo mas datos 
+    let   apiPage=useSelector(state=>state.titlesState.apiPage)  //Leo la pagina actual de los resultados de la API
 
     useEffect(() => {
 
         dispatch(refreshPage(1)); //Como hubo cambio en filtros o busqueda, reseteo la pagina para el paginado
         
+
+        if(changePage==="next"){  //EL boton ">" de paginado, pidio cambiar a la siguiente pagina de la API
+            apiPage++;
+        }else if(changePage==="back"&&apiPage>1){  //EL boton "<" de paginado, pidio regresar la pagina de la API
+            apiPage--;
+        }
+
         if(keyWord){  //Si hay una busqueda activa, agrego el texto a params para detectarlo en el reducer
-            dispatch(getFilterTitles({ ...params,keyWord:keyWord }));
+            dispatch(getFilterTitles({ ...params,keyWord:keyWord,page:apiPage }));
         }else{
             const keys = Object.keys(params);
             //Revisar si el objeto esta vacio para pedir los titles iniciales
             if(!keys.length){
-                dispatch(getInitialTitles());
+                dispatch(getInitialTitles({list: 'most_pop_movies',limit:48,year:2022,page:apiPage}));
             }
             //Si no esta vacio , entonces envio params para busqueda con los filtros activos
             else{
-                dispatch(getFilterTitles({ ...params }));
+                dispatch(getFilterTitles({ ...params,page:apiPage }));
             }
-        }
-      }, [params, dispatch,keyWord]);
+        } 
+       
+      }, [params, dispatch,keyWord,changePage]);
    
     //Segun el valor del filtro, cambiamos starYear y endYear para la consulta a la api
     const handlerFiltersYear=(event)=>{
+        dispatch(setApiPage(1)); //Hubo un cambio en filtros, vuelvo a pedir la pagina 1 de la api
         const valor=event.target.value;
         setValueYear(valor)
         const {startYear,endYear,...nuevoEstado} = params; // Crear un nuevo objeto sin startYear y endYear
@@ -82,6 +93,7 @@ const Filters=()=>{
 
     //Segun el valor del filtro, modificamos sort para la consulta a la api
     const handlerFiltersOrder=(event)=>{
+        dispatch(setApiPage(1)); //Hubo un cambio en filtros, vuelvo a pedir la pagina 1 de la api
         const valor=event.target.value
         setValueOrder(valor)
         const {sort,...nuevoEstado} = params; // Crear un nuevo objeto sin sort
@@ -100,6 +112,7 @@ const Filters=()=>{
 
     //Segun el valor del fitro, modificamos titleType para la consulta a la api
     const handlerFiltersType=(event)=>{
+        dispatch(setApiPage(1)); //Hubo un cambio en filtros, vuelvo a pedir la pagina 1 de la api
         const valor= event.target.value
         const {titleType,...nuevoEstado} = params; // Crear un nuevo objeto sin titleType
         setValueType(valor)
@@ -113,6 +126,7 @@ const Filters=()=>{
         setValueType("Tipo");
         setValueYear("Año")
         setParams({})
+        dispatch(setApiPage(1)); //Hubo un cambio en filtros, vuelvo a pedir la pagina 1 de la api
         dispatch(addKeyWord(""));
     }
     return(  

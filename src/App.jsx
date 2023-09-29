@@ -14,7 +14,7 @@ function App() {
   const dispatch= useDispatch();
 
   useEffect(()=>{
-      dispatch(getInitialTitles())
+      dispatch(getInitialTitles({list: 'most_pop_movies',limit:48,year:2022}))
       dispatch(getTitleTypes())
   } ,[])
 
