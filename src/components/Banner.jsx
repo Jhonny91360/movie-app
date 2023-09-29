@@ -61,7 +61,7 @@ const Banner = () => {
   };
 
   return (
-    <div className='max-w-[1400px] h-[780px] w-full m-auto py-16 px-4 relative group'>
+    <div className='max-w-[1600px] h-[780px] w-full m-auto  relative group'>
       <div className="relative w-full h-full">
         <img
           src={slides[currentIndex].img}

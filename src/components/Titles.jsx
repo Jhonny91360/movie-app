@@ -24,11 +24,11 @@ const Titles=()=>{
     },[globalPage])
 
     return (
-        <div className="w-1/2 mx-auto p-4 bg-red-400">
-        <div className="flex flex-wrap -mx-4 bg-blue-200">
+        <div className="max-w-[1600px] h-[1400px] mx-auto p-4 bg-red-400">
+        <div className="flex flex-row flex-wrap -mx-4 bg-blue-200">
            
             {   titlesPaginated?.map( (title)=>(
-                <div key={title?.id} className="w-1/4 p-4 mb-4">
+                <div key={title?.id} className="p-1 mb-4">
                 <CardTitle key={title?.id}
                    image={title.primaryImage?.url}
                    titleText={title.titleText?.text}
