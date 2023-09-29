@@ -12,16 +12,40 @@ const Titles=()=>{
     const globalPage=useSelector(state=>state.titlesState.page)//Para volver a la pagina 1 cuando se aplica un filtro
                                                                //o se hace una busqueda nueva, Filter.jsx actualiza state.page         
 
+    const apiPage=useSelector(state=>state.titlesState.apiPage) //Leer API page actual para hacer logica de paginado
+
+                                                                //apiPage=1 => paginado[1-4] , Apipage=2=> paginado[5-8]...etc
     //Logica para paginado
+    console.log("valor globalPage desde Titles.jsx: "+globalPage);
+
     const [page, setPage] = useState(globalPage);  //Estado para la pagina actual, inicia en 1
     const [perPage] = useState(12);       //Estado para la cantidad de elementos por pagina
 
-    const startIndex = (page - 1) * perPage;  //para hallar el indice inicial del slice
-    const endIndex = startIndex + perPage;    //para hallar el indice final del slice
+    let startIndex=0;
+    let endIndex=0;
 
-    const max = Math.ceil(titles?.length / perPage);  // para hallar la cantidad de paginas necesarias segun la cantidad de recetas
+    if(apiPage>1){  //Si estamos avanzados en el paginado pagina 5 en adelnta equiva a apiPage>2
+        startIndex = (page-( (apiPage-1)*4 ) - 1) * perPage;  //para hallar el indice inicial del slice
+        endIndex = startIndex + perPage;    //para hallar el indice final del slice    
+    }
+    else{           //Si estamos en la pagina 1 apiPage 1
+        startIndex = (page - 1) * perPage;  //para hallar el indice inicial del slice
+        endIndex = startIndex + perPage;    //para hallar el indice final del slice
+    }
+
+
+    let cantPages = Math.ceil((titles?.length / perPage));  // para hallar la cantidad de paginas necesarias segun la cantidad de titles
+
+    let min=(4*apiPage)-3 // calculo de min = si apiPage =1   ... paginado = [min=1 -- min+cantPages]
+                        //                    si apiPage=2    ... paginado = [min=5 -- min+cantPages]
+
+    let max= (min+cantPages)-1
+
 
     const titlesPaginated= titles?.slice(startIndex, endIndex);
+
+    console.log("star index: "+startIndex);
+    console.log("end index: "+endIndex);
 
     useEffect(()=>{
         console.log("renderizado por reseteo de pagina");
@@ -30,7 +54,7 @@ const Titles=()=>{
 
     return (
         <div className="max-w-[1600px] h-[1400px] mx-auto p-4 bg-red-400">
-        <div className="flex flex-row flex-wrap -mx-4 bg-blue-200">
+        <div className="flex flex-row flex-wrap  bg-blue-200">
            
               
                 {/* //Mostrar los titulos cargados en el estado global */}
@@ -74,7 +98,7 @@ const Titles=()=>{
                 }
 
         </div> 
-        <Paginated page={page} setPage={setPage} max={max}/>
+        <Paginated page={page} setPage={setPage} max={max} min={min}/>
         </div>
         
     )

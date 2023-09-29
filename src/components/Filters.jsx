@@ -26,9 +26,6 @@ const Filters=()=>{
 
     useEffect(() => {
 
-        dispatch(refreshPage(1)); //Como hubo cambio en filtros o busqueda, reseteo la pagina para el paginado
-        
-
         if(changePage==="next"){  //EL boton ">" de paginado, pidio cambiar a la siguiente pagina de la API
             apiPage++;
         }else if(changePage==="back"&&apiPage>1){  //EL boton "<" de paginado, pidio regresar la pagina de la API
@@ -54,6 +51,7 @@ const Filters=()=>{
     //Segun el valor del filtro, cambiamos starYear y endYear para la consulta a la api
     const handlerFiltersYear=(event)=>{
         dispatch(setApiPage(1)); //Hubo un cambio en filtros, vuelvo a pedir la pagina 1 de la api
+        dispatch(refreshPage(1)); //Como hubo cambio en filtros o busqueda, reseteo la pagina para el paginado
         const valor=event.target.value;
         setValueYear(valor)
         const {startYear,endYear,...nuevoEstado} = params; // Crear un nuevo objeto sin startYear y endYear
@@ -94,6 +92,7 @@ const Filters=()=>{
     //Segun el valor del filtro, modificamos sort para la consulta a la api
     const handlerFiltersOrder=(event)=>{
         dispatch(setApiPage(1)); //Hubo un cambio en filtros, vuelvo a pedir la pagina 1 de la api
+        dispatch(refreshPage(1)); //Como hubo cambio en filtros o busqueda, reseteo la pagina para el paginado
         const valor=event.target.value
         setValueOrder(valor)
         const {sort,...nuevoEstado} = params; // Crear un nuevo objeto sin sort
@@ -113,6 +112,7 @@ const Filters=()=>{
     //Segun el valor del fitro, modificamos titleType para la consulta a la api
     const handlerFiltersType=(event)=>{
         dispatch(setApiPage(1)); //Hubo un cambio en filtros, vuelvo a pedir la pagina 1 de la api
+        dispatch(refreshPage(1)); //Como hubo cambio en filtros o busqueda, reseteo la pagina para el paginado
         const valor= event.target.value
         const {titleType,...nuevoEstado} = params; // Crear un nuevo objeto sin titleType
         setValueType(valor)
@@ -127,6 +127,7 @@ const Filters=()=>{
         setValueYear("Año")
         setParams({})
         dispatch(setApiPage(1)); //Hubo un cambio en filtros, vuelvo a pedir la pagina 1 de la api
+        dispatch(refreshPage(1)); //Como hubo cambio en filtros o busqueda, reseteo la pagina para el paginado
         dispatch(addKeyWord(""));
     }
     return(  

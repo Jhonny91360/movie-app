@@ -3,11 +3,15 @@ import { refreshPage } from "../redux/titlesSlice";
 import { changePaginated } from "../redux/titlesSlice";
 
 
-const Paginated = ({page, setPage, max}) => {
+const Paginated = ({page, setPage, max, min}) => {
+
+    //console.log("me llego min= "+min);
+    //console.log("me llego max= "+max);
+    console.log("me llego page= "+page);
     //                                                                             apiPage=1    apiPage=2
     //Creo el array que representa los numeros de los botones del paginado ejemplo [1,2,3,4]    [5,6,7,8]
-    const pages = Array.from({length: max}, (_, i) => i + 1);
-
+    const pages = Array.from({length:(max-min)+1}, (_, i) => i + min);
+    console.log("resultado pages: ",pages);
     const dispatch=useDispatch();
 
     // Para saber si hay mas resultados por buscar en la API, la api responde siempre si hay una nextPage
@@ -24,10 +28,10 @@ const Paginated = ({page, setPage, max}) => {
         console.log("valor apiPage: "+apiPage);
         if(num>max){    //Si llega 5 y la pagina max era 4 , se solicita siguiente paquete de datos a la api, apiNextPage=2
           dispatch(changePaginated("next"))
-          //dispatch(refreshPage(1))
-        }else if(num<1){
+          dispatch(refreshPage(num))
+        }else if(num<min){
           dispatch(changePaginated("back"))
-          //dispatch(refreshPage(4))
+          dispatch(refreshPage(num))
         }
         else{
         dispatch(refreshPage(num))
