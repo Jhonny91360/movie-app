@@ -19,7 +19,7 @@ function App() {
   } ,[])
 
   return (
-    <div className='bg-orange-300 h-screen'>
+    <div className=' h-full'>
           <Banner></Banner>
           <SearchBar/>
           <Filters/>

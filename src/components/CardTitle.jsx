@@ -2,7 +2,7 @@ const defaultImage="image-not-found.jpg"
 const CardTitle=({image,titleText,titleType,year})=>{
    
     return (
-        <div className="bg-lime-100 w-[250px] h-[450px] mx-11 flex flex-col  relative ">
+        <div className=" w-[250px] h-[450px] mx-11 flex flex-col  relative ">
             <img className='w-full h-5/6 rounded-3xl' src={image?image:defaultImage} alt=""
                  onError={ (e)=>{e.target.src=defaultImage} }
             />

@@ -13,13 +13,13 @@ const Footer=()=>{
                 <AiOutlineTwitter className="w-10 h-10 mx-4"/>
                 <AiFillYoutube className="w-10 h-10 mx-4"/>
             </div>
-            <div className="flex flex-row mt-8 justify-center">
+            <div className="flex flex-col text-center  md:flex-row mt-8 justify-center">
                 <span className=" mx-14 text-2xl font-bold text-gray-700">Conditions of use</span>
                 <span className=" mx-14 text-2xl font-bold text-gray-700">Privacy & Policy</span>
                 <span className=" mx-14 text-2xl font-bold text-gray-700">Press room</span>
             </div>
 
-            <span className=" mt-8 mb-8 text-2xl font-bold text-gray-500">©2012 MovieBox by Jhonny Zambrano</span>
+            <span className="text-lg mt-8 mb-8 md:text-2xl font-bold text-gray-500">©2012 MovieBox by Jhonny Zambrano</span>
 
         </div>
     )

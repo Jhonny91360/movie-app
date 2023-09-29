@@ -53,8 +53,8 @@ const Titles=()=>{
     },[globalPage])
 
     return (
-        <div className="max-w-[1600px] h-[1400px] mx-auto p-4 bg-red-400">
-        <div className="flex flex-row flex-wrap  bg-blue-200">
+        <div className="max-w-[1600px] h-full mx-auto p-4 ">
+        <div className="justify-center items-center flex flex-row flex-wrap  ">
            
               
                 {/* //Mostrar los titulos cargados en el estado global */}

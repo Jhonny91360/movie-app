@@ -66,7 +66,7 @@ const Banner = () => {
         <img
           src={slides[currentIndex].img}
           alt="Slide"
-          className='w-full h-full rounded-2xl  duration-500 object-scale-down'
+          className='w-full h-full   duration-500 object-scale-down'
           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
         />
         {/* Agregar superposición oscura */}
