@@ -120,7 +120,7 @@ const Filters=()=>{
             <div  className="m-2 relative">
             <select value={valueYear} 
                     onChange={handlerFiltersYear} 
-                    className="p-2 pr-8 bg-white border border-black rounded appearance-none">
+                    className="p-2 pr-8 font-bold bg-white border border-black rounded appearance-none">
                     <option name="" id="">AÑO</option>
                     <option name="" id="">2020 - 2023</option>
                     <option name="" id="">2010 - 2019</option>
@@ -140,7 +140,7 @@ const Filters=()=>{
             <select 
                 value={valueOrder} 
                 onChange={handlerFiltersOrder}
-                className="p-2 pr-8 bg-white border border-black rounded appearance-none">
+                className="p-2 pr-8 font-bold bg-white border border-black rounded appearance-none">
                 <option name="" id="">ORDENAR</option>
                 <option name="" id="">ASC </option>
                 <option name="" id="">DESC</option>
@@ -153,7 +153,7 @@ const Filters=()=>{
             <div  className="m-2 relative">
             <select value={valueType} 
                     onChange={handlerFiltersType}
-                    className="p-2 pr-8 bg-white border border-black rounded appearance-none">
+                    className="p-2 pr-8 font-bold bg-white border border-black rounded appearance-none">
                 <option name="" id="">TIPO</option>
                 {
                     titleTypes?.map(type=>{
