@@ -99,14 +99,16 @@ const Banner = () => {
         
 
         <div className="absolute bottom-1/3 left-[8%] text-white">
-          <div className="md:mt-0 mt-4 mb-10 flex items-center space-x-2 ">
-            <div className="bg-red-700 rounded-full p-2">
-                <div className=" bg-red-600 rounded-full p-2">
+
+          <div className="md:-mt-[50px] mt-4 mb-28 flex items-center space-x-2 ">
+            <div className="bg-rose-700 rounded-full p-2">
+                <div className=" bg-rose-600 rounded-full p-2">
                     <PiTelevisionSimpleBold className="text-white w-6 h-6" />
                 </div>
             </div>
-           <h1 className="text-2xl font-bold">MovieBox</h1>
+           <h1 className="text-2xl font-semibold">MovieBox</h1>
           </div>
+          
           <h1 className="text-4xl font-bold ">{slides[currentIndex].title1}</h1>
           <h2 className="text-4xl font-bold ">{slides[currentIndex].title2}</h2>
           <div className="flex items-center space-x-2 mt-2">
@@ -118,7 +120,9 @@ const Banner = () => {
           <p className="md:flex hidden text-lg" dangerouslySetInnerHTML={{ __html: slides[currentIndex].resumen }}></p>
           <a
             href={slides[currentIndex].trailer}
-            className="text-xl bg-red-800 hover:bg-red-700 text-white py-2 px-4 rounded-md mt-4 inline-flex items-center"
+            target="_blank"
+            rel="noreferrer"
+            className="text-md bg-rose-700 hover:bg-red-700 text-white py-3 px-5 font-semibold rounded-md mt-4 inline-flex items-center"
             >
             <AiFillPlayCircle className="w-5 h-5 mr-2" /> WATCH TRAILER
           </a>

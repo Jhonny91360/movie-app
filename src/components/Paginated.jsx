@@ -5,8 +5,7 @@ import { changePaginated } from "../redux/titlesSlice";
 
 const Paginated = ({page, setPage, max, min}) => {
 
-    //console.log("me llego min= "+min);
-    //console.log("me llego max= "+max);
+
     console.log("me llego page= "+page);
     //                                                                             apiPage=1    apiPage=2
     //Creo el array que representa los numeros de los botones del paginado ejemplo [1,2,3,4]    [5,6,7,8]
@@ -43,14 +42,14 @@ const Paginated = ({page, setPage, max, min}) => {
       if(paginas===page) return (
                                 
                                   <button key={paginas}  
-                                          className="bg-red-700 p-2 rounded-lg w-12 mx-2 text-white text-[20px] font-bold"
+                                          className="bg-rose-700 p-2 rounded-lg w-12 mx-2 text-white text-[20px] font-bold"
                                           onClick={() =>{ pageHandler(paginas) }}> {paginas}
                                   </button>
                                  
                                   )
       else return (
                     <button key={paginas} 
-                            className=" mx-4 text-gray-500 text-[20px] font-bold"
+                            className=" p-2 rounded-lg w-12 mx-2 text-gray-600 text-[20px] font-bold"
                             onClick={() => {pageHandler(paginas)}}  >{paginas}
                     </button>)
     } 

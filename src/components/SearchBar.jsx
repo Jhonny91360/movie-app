@@ -30,6 +30,12 @@ const SearchBar = () => {
     setKeyword(event.target.value);
   };
 
+  const handleEnterKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      searchByKeyWord(keyword);
+    }
+  };
+
   return (
     <div className="max-w-[1400px] mx-auto p-4 text-center">
     <div className="relative">
@@ -41,12 +47,13 @@ const SearchBar = () => {
         id=""
         placeholder="What do you want to watch?"
         onChange={handleChangeText}
+        onKeyPress={handleEnterKeyPress}
       />
       <button
         onClick={() => searchByKeyWord(keyword)}
-        className="absolute right-1/3 top-2 text-white px-4 py-2 rounded-md"
+        className="absolute right-1/3 top-1 text-white px-4 py-2 rounded-md"
       >
-        <BsSearch className="text-black"/>
+        <BsSearch className=" text-black"/>
       </button>
     </div>
   </div>

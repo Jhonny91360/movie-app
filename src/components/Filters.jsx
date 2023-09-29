@@ -131,11 +131,11 @@ const Filters=()=>{
         dispatch(addKeyWord(""));
     }
     return(  
-        <div className="flex flex-col items-center  md:flex-row md:justify-center md:space-x-4 p-4">
+        <div className="w-1/3 mx-auto flex flex-col items-center  md:flex-row md:justify-center md:space-x-4 p-4">
             <div  className="m-2 relative">
             <select value={valueYear} 
                     onChange={handlerFiltersYear} 
-                    className="p-2 pr-8 font-bold bg-white border border-black rounded appearance-none">
+                    className=" p-2 pr-8 font-bold bg-white border border-black rounded appearance-none">
                     <option name="" id="">AÑO</option>
                     <option name="" id="">2020 - 2023</option>
                     <option name="" id="">2010 - 2019</option>
@@ -168,7 +168,7 @@ const Filters=()=>{
             <div  className="m-2 relative">
             <select value={valueType} 
                     onChange={handlerFiltersType}
-                    className="p-2 pr-8 font-bold bg-white border border-black rounded appearance-none">
+                    className=" p-2 pr-8 font-bold bg-white border border-black rounded appearance-none">
                 <option name="" id="">TIPO</option>
                 {
                     titleTypes?.map(type=>{
@@ -186,8 +186,8 @@ const Filters=()=>{
 
 
             <button onClick={()=>cleanFilters()}
-            className="bg-red-500 text-white p-2 rounded"
-            >Limpiar
+            className="transition duration-100 transform hover:scale-105 bg-rose-700 text-md font-semibold px-4 text-white p-2 rounded"
+            >LIMPIAR
             </button>
         </div>
     )
