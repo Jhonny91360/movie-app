@@ -1,8 +1,6 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
-//const {X_RapidAPI_Key,X_RapidAPI_Host} = import.meta.env.VITE
 const BASE_URL='https://moviesdatabase.p.rapidapi.com/titles'
 const X_RapidAPI_Key="ee04c582bemsh180cfafc6fca54ap1e1571jsnb62a626db06e"
 const X_RapidAPI_Host="moviesdatabase.p.rapidapi.com"
@@ -39,8 +37,6 @@ export const getInitialTitles=createAsyncThunk('titles/getInitialTitles',async(p
         options.url=`${BASE_URL}`
         options.params=params
         const response= await axios.request(options)
-        //console.log("Respuesta API: ",response.data.results)
-        console.log("lo que entrega la API: ",response.data);
         return response.data
     } catch (error) {
         console.log("Error API: "+error.message)
@@ -75,9 +71,7 @@ export const getFilterTitles=createAsyncThunk('titles/getFilterTitles',async(par
         options.params.limit=48;        //50 resultados es el maximo de la api, uso 48 por pagina muestro 12 = 4 pag
         
         const response= await axios.request(options)
-        console.log("URL: "+options.url);
-        console.log("Params: ",options.params);
-        console.log("Respuesta titulos filtrados: ",response.data)
+
         return response.data
     } catch (error) {
         console.log("Error API en titulos filtrados: "+error.message)
@@ -92,7 +86,7 @@ export const getTitleTypes=createAsyncThunk('titles/getTitleTypes',async()=>{
         options.url=`${BASE_URL}/utils/titleTypes`
         options.params={}
         const response= await axios.request(options)
-        //console.log("Respuesta tipos: ",response.data.results)
+        
         return response.data.results
     } catch (error) {
         console.log("Error API: "+error.message)
@@ -108,15 +102,15 @@ export const titlesSlice=createSlice({
             state.keyWord=action.payload
         },                          //Reduce para la pagina de nuestra aplicacion
         refreshPage:(state,action)=>{
-            //console.log("refrescando pagina: "+action.payload)
+           
             state.page=action.payload
         },                          //Reduce para cambiar la pagina de la API
         changePaginated:(state,action)=>{
-            //console.log("cambiando page: "+action.payload)
+            
             state.changePage=action.payload
         },
         setApiPage:(state,action)=>{
-            console.log("cambiando Apipage: "+action.payload)
+            
             state.apiPage=action.payload
         },
     },

@@ -16,7 +16,7 @@ const Titles=()=>{
 
                                                                 //apiPage=1 => paginado[1-4] , Apipage=2=> paginado[5-8]...etc
     //Logica para paginado
-    console.log("valor globalPage desde Titles.jsx: "+globalPage);
+    
 
     const [page, setPage] = useState(globalPage);  //Estado para la pagina actual, inicia en 1
     const [perPage] = useState(12);       //Estado para la cantidad de elementos por pagina
@@ -44,11 +44,10 @@ const Titles=()=>{
 
     const titlesPaginated= titles?.slice(startIndex, endIndex);
 
-    console.log("star index: "+startIndex);
-    console.log("end index: "+endIndex);
+
 
     useEffect(()=>{
-        console.log("renderizado por reseteo de pagina");
+        
         setPage(globalPage)
     },[globalPage])
 

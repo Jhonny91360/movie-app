@@ -106,7 +106,7 @@ const Filters=()=>{
 
         }else setParams(nuevoEstado); // Establecer el nuevo estado sin sort
 
-        console.log("params ",params);
+        
     }
 
     //Segun el valor del fitro, modificamos titleType para la consulta a la api
@@ -116,7 +116,7 @@ const Filters=()=>{
         const valor= event.target.value
         const {titleType,...nuevoEstado} = params; // Crear un nuevo objeto sin titleType
         setValueType(valor)
-        console.log(valor);
+        
         if(valor!="TIPO") setParams({...params,titleType:valor})
         else setParams(nuevoEstado); // Establecer el nuevo estado sin titleType
     }
